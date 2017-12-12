@@ -4,4 +4,4 @@ COPY ["client.jar", "/opt/"]
 
 
 
-CMD "java -jar /opt/client.jar"
+CMD java -jar /opt/client.jar
