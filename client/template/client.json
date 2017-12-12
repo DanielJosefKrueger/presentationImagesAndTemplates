@@ -1,0 +1,45 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nodejs-helloworld-sample",
+    "annotations": {
+      "description": "This example shows how to create a simple nodejs application in openshift origin v3",
+      "iconClass": "icon-nodejs",
+      "tags": "instant-app,nodejs"
+    }
+  },
+  "objects": [
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "clients-presentation"
+      },
+      "spec": {
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "nodejs-helloworld"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "origin-nodejs-sample:prod"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 2,
+        "selector": {
+          "name": "frontend-prod"
+        }
+      }
+    }
+  ]
+}
