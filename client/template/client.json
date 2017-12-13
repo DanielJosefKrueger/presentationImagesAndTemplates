@@ -59,7 +59,8 @@
                 "image": " ",
                 "env":[
                   {"name":"HOST", "value":"${PRESENTATION_HOST}"},
-                  {"name":"PORT", "value":"${PRESENTATION_PORT}"}
+                  {"name":"PORT", "value":"${PRESENTATION_PORT}"},
+                  {"name":"TOPIC", "value":"${PRESENTATION_TOPIC}"}
                 ],
                 "imagePullPolicy": "IfNotPresent",
                 "capabilities": {}
@@ -90,6 +91,13 @@
       "displayName": "PORT des Hosts",
       "description": "Hier die Ip Adresse von HiveMQ eintragen",
       "value": "1883",
+      "required": true
+    },
+    {
+      "name": "PRESENTATION_TOPIC",
+      "displayName": "Topic",
+      "description": "Eintragen, auf welches topic gepublisht werden soll",
+      "value": "top/secret",
       "required": true
     }
   ]
