@@ -77,7 +77,7 @@
     }
   ],
 
-  "parameteres":[
+  "parameters":[
     {
       "name": "PRESENTATION_HOST",
       "displayName": "ip Adresse des Hosts",
