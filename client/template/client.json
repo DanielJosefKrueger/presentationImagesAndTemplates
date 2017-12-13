@@ -2,11 +2,10 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-helloworld-sample",
+    "name": "clienttemplate",
     "annotations": {
-      "description": "This example shows how to create a simple nodejs application in openshift origin v3",
-      "iconClass": "icon-nodejs",
-      "tags": "instant-app,nodejs"
+      "description": "This is a demonstration for using Templates",
+      "tags": "presentation"
     }
   },
   "objects": [
@@ -17,18 +16,23 @@
         "name": "clients-presentation"
       },
       "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
         "triggers": [
           {
             "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-helloworld"
+                "clientcontainer"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "origin-nodejs-sample:prod"
-              }
+                "name": "clientjar:1.0",
+                "namespace": "presentation"
+              },
+              "lastTriggeredImage": ""
             }
           },
           {
@@ -37,9 +41,56 @@
         ],
         "replicas": 2,
         "selector": {
-          "name": "frontend-prod"
+          "name": "app",
+          "subject": "client"
+        },
+        "template":{
+          "metadata": {
+            "labels":{
+              "name": "app",
+              "subject": "client"
+
+            }
+          },
+          "spec": {
+            "containers":[
+              {
+                "name":"clientcontainer",
+                "image": " ",
+                "env":[
+                  {"name":"HOST", "value":"${PRESENTATION_HOST}"},
+                  {"name":"PORT", "value":"${PRESENTATION_PORT}"}
+                ],
+                "imagePullPolicy": "IfNotPresent",
+                "capabilities": {}
+              }
+            ],
+            "restartPolicy": "Always",
+            "dnsPolicy": "ClusterFirst"
+          }
+
+
         }
+
+
       }
+    }
+  ],
+
+  "parameteres":[
+    {
+      "name": "PRESENTATION_HOST",
+      "displayName": "ip Adresse des Hosts",
+      "description": "Hier die Ip Adresse von HiveMQ eintragen",
+      "value": "broker.mqttdashboard.com",
+      "required": true
+    },
+    {
+      "name": "PRESENTATION_PORT",
+      "displayName": "PORT des Hosts",
+      "description": "Hier die Ip Adresse von HiveMQ eintragen",
+      "value": "1883",
+      "required": true
     }
   ]
 }
